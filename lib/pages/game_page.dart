@@ -18,19 +18,29 @@ class GamePage extends StatelessWidget {
   }
 
   Widget _buildUI(BuildContext context) {
-    return Builder(builder: (context) {
-      _pageProvider = context.read<GamePageProvider>();
-      return Scaffold(
-        body: SafeArea(
-          child: Container(
-            padding: EdgeInsets.symmetric(
-              horizontal: _deviceWidth! * 0.05,
+    return Builder(
+      builder: (context) {
+        _pageProvider = context.watch<GamePageProvider>();
+        if (_pageProvider!.questions != null) {
+          return Scaffold(
+            body: SafeArea(
+              child: Container(
+                padding: EdgeInsets.symmetric(
+                  horizontal: _deviceWidth! * 0.05,
+                ),
+                child: _gameUI(),
+              ),
             ),
-            child: _gameUI(),
-          ),
-        ),
-      );
-    });
+          );
+        } else {
+          return const Center(
+            child: CircularProgressIndicator(
+              color: Colors.white,
+            ),
+          );
+        }
+      },
+    );
   }
 
   Widget _gameUI() {
@@ -54,9 +64,9 @@ class GamePage extends StatelessWidget {
   }
 
   Widget _questionText() {
-    return const Text(
-      'Test Question 1, Nothing Interesting',
-      style: TextStyle(
+    return Text(
+      _pageProvider!.getCurrentQuestion(),
+      style: const TextStyle(
         fontSize: 25,
         fontWeight: FontWeight.w400,
         color: Colors.white,
@@ -66,7 +76,9 @@ class GamePage extends StatelessWidget {
 
   Widget _trueButton() {
     return MaterialButton(
-      onPressed: () {},
+      onPressed: () {
+        _pageProvider!.answerQuestion('True');
+      },
       color: Colors.green,
       minWidth: _deviceWidth! * 0.8,
       height: _deviceHeight! * 0.10,
@@ -83,7 +95,9 @@ class GamePage extends StatelessWidget {
 
   Widget _falseButton() {
     return MaterialButton(
-      onPressed: () {},
+      onPressed: () {
+        _pageProvider!.answerQuestion('False');
+      },
       color: Colors.red,
       minWidth: _deviceWidth! * 0.8,
       height: _deviceHeight! * 0.10,
