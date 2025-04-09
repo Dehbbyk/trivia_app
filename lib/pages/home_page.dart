@@ -71,6 +71,7 @@ class _HomePageState extends State<HomePage> {
 
   Widget _difficultySlider() {
     return Slider(
+      label: 'Difficulty',
       min: 0,
       max: 2,
       divisions: 2,
