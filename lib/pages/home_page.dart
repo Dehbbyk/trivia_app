@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 
 class HomePage extends StatefulWidget {
@@ -10,6 +12,12 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   double? _deviceHeight, _deviceWidth;
   double _currentDifficultyLevel = 0; // Default difficulty level
+
+  final List<String> _difficultyTexts = [
+    'Easy',
+    'Medium',
+    'Hard',
+  ];
 
   @override
   Widget build(BuildContext context) {
@@ -39,12 +47,20 @@ class _HomePageState extends State<HomePage> {
   }
 
   Widget _appTitle() {
-    return const Column(
+    return Column(
       children: [
-        Text(
+        const Text(
           'Trivia Game',
           style: TextStyle(
             fontSize: 50,
+            color: Colors.white,
+            fontWeight: FontWeight.w500,
+          ),
+        ),
+        Text(
+          _difficultyTexts[_currentDifficultyLevel.toInt()],
+          style: const TextStyle(
+            fontSize: 20,
             color: Colors.white,
             fontWeight: FontWeight.w500,
           ),
@@ -55,11 +71,16 @@ class _HomePageState extends State<HomePage> {
 
   Widget _difficultySlider() {
     return Slider(
+      min: 0,
+      max: 2,
+      divisions: 2,
       value: _currentDifficultyLevel,
       onChanged: (value) {
-        setState(() {
-          _currentDifficultyLevel = value;
-        });
+        setState(
+          () {
+            _currentDifficultyLevel = value;
+          },
+        );
       },
     );
   }
