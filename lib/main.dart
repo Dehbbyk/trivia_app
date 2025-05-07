@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:trivia_app/pages/game_page.dart';
 import 'package:trivia_app/pages/home_page.dart';
 
 void main() {
